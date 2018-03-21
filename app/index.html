@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>validate</title>
+	<meta name="description" content="cv" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon_fd.ico"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+	<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/libs.min.css">
+</head>
+<body>
+<form action="" id="b-form">
+  <input type="text" data-label="login" id="login" name="login">
+  <input type="text" data-label="You're email" id="e-mail" name="email">
+  <input type="text" data-label="Password" id="password" name="password">
+  <input type="text" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
+  <button type="button" name="send">Login</button>
+</form>
+
+<script>
+  var validate_test = ({
+    formId : 'b-form',
+    messages : {
+        'login' : {
+            messageRequired : 'Login is not required-custom',
+            messageLength   : 'Login must be more 4 symbols-custom'
+        },
+        'password' : {
+            messageRequired : 'Password is not required-custom',
+            messageLength   : 'Password must be more 8 symbols-custom',
+            messageMatch    : 'Passwords is not match-custom'
+        },
+        'e-mail' : {
+            messageRequired : 'Email is not required-custom',
+            messageLength   : 'Email must be more 8 symbols-custom',
+            messageMatch    : 'Email must contain match-custom'
+        }
+    },
+    rules : {
+        'login' : {
+            required  : true,
+            minLength : 4
+        },
+        'password' : {
+            minLength : 8,
+            required  : true,
+            matched   : 'repeat-password'
+        },
+        'e-mail' : {
+            minLength : 8,
+            required  : true,
+            exist     : ['@','.ru','.com']
+        }
+    }
+    // defaultStyles  : false
+  });
+</script>
+
+
+<script>
+  var validate = ({
+    formId : 'b-form',
+    errorMessages : {
+      'login' : 'Login is not required-custom',
+      'e-mail': 'Email is not required-custom',
+      'password' : 'Login is not required-custom',
+      'password' : {
+        'repeat_password' : 'Password is not match-custom'
+      },
+      'repeat_password' : 'Login is not required-custom'
+    }
+    // defaultStyles  : false
+  });
+</script>
+<script src="libs/main-min.js"></script>
+</body>
+</html>
