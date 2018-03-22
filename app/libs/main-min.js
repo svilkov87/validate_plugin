@@ -1,109 +1,99 @@
 'use strict';
 
 var form       = document.getElementById(validate.formId),
-formAccess = form.elements;
+    formAccess = form.elements;
 
-// plugin's object
+// find plugin's button
 
-var pluginSettings = ({
+for (var i = 0; i < form.length; i++){
+
+    if(form[i].getAttribute('type') == 'button'){
+
+        var button = form[i];
+
+    }
+
+}
+
+
+var pluginSettings = {
     formId : 'b-form',
-    rules : {
+    rules  : {
         'login' : {
             required  : true,
+            messageRequired : 'Login is not required-plugin',
+            messageLength   : 'Login must be more 4 symbols-plugin',
             // required  : false,
             minLength : 4
         },
         'password' : {
             minLength : 8,
             required  : true,
-            matched   : 'repeat-password'
-        },
-        'e-mail' : {
-            minLength : 8,
-            required  : true,
-            exist     : ['@','.ru','.com']
-        }
-    },
-    messages : {
-        'login' : {
-            messageRequired : 'Login is not required-plugin',
-            messageLength   : 'Login must be more 4 symbols-plugin'
-        },
-        'password' : {
+            matched   : 'repeat-password',
             messageRequired : 'Password is not required-plugin',
             messageLength   : 'Password must be more 8 symbols-plugin',
             messageMatch    : 'Passwords is not match-plugin'
         },
         'e-mail' : {
+            minLength : 8,
+            required  : true,
             messageRequired : 'Email is not required-plugin',
             messageLength   : 'Email must be more 8 symbols-plugin',
-            messageMatch    : 'Email must contain @, .com, .ru symbols-plugin'
+            messageExist    : 'Email must contain @, .com, .ru symbols-plugin',
+            exist     : ['@','.ru','.com']
         }
     }
+
 // defaultStyles  : false
-});
+};
 
-//find button
+var objectArray = [];
+// var objectArray = [];
 
-for (var i = 0; i < form.length; i++){
+for ( var objectKey in pluginSettings.rules) {
 
-  if(form[i].getAttribute('type') == 'button'){
-
-    var button = form[i];
-
-}
+    objectArray.push(objectKey);
 
 }
 
 button.addEventListener( "click" , function(e) {
     event.preventDefault();
 
-    for (var i = 0; i < formAccess.length; i++) {
+    for ( var i = 0; i < formAccess.length; i++ ) {
 
         if( formAccess[i].getAttribute('type') == 'text' ){
 
-            if (!formAccess[i].value) {
+            // find plugin's inputs
+            var inputs   = formAccess[i],
+                inputsId = inputs.getAttribute('id'),
+                input    = document.getElementById(inputsId);
 
-                var parent  = formAccess[i].parentNode,
-                messageElem = document.createElement('span');
+                for (var j = 0; j < objectArray.length; j++) {
 
-                messageElem.className = "b-form__error";
-                parent.insertBefore(messageElem, formAccess[i]);
+                    if (inputsId == objectArray[j]) {
 
-                formAccess[i].classList.add('error_border');
+                        // console.log( pluginSettings.rules[inputsId]);
 
-            // messageElem.innerHTML = errorMessages.data[key];
+                        if ( pluginSettings.rules[inputsId].required === true ) {
 
-                var inputId = formAccess[i].getAttribute('id');
+                            if ( !input.value ) {
+                                input.value = pluginSettings.rules[inputsId].messageRequired;
+                            }
+                            else if ( input.value.length < pluginSettings.rules[inputsId].minLength ) {
 
-            // rules circle
+                                input.value = pluginSettings.rules[inputsId].messageLength;
 
-                for ( var k in pluginSettings.rules) {
+                            }
+                            else if ( pluginSettings.rules[inputsId].matched ) {
 
-                    if ( k === inputId ) {
+                                var matched = document.getElementById(pluginSettings.rules[inputsId].matched);
 
-                        for ( var l in pluginSettings.rules[k] ) {
+                                                        console.log( input.value );
+                                                        console.log( matched.value );
 
-                            var rulesValues = pluginSettings.rules[k][l];
+                                if ( matched.value != input.value) {
 
-                            if ( l == 'required' && rulesValues === true) {
-
-                                for ( var key in pluginSettings.messages) {
-
-                                    if ( key === inputId ) {
-
-                                        for ( var item in pluginSettings.messages[key]) {
-
-                                            var arr2 = []; // its true place for init arr
-
-                                            arr2.push(pluginSettings.messages[key].messageRequired);
-
-                                            messageElem.innerHTML = arr2;
-                                            // console.log(uniqueArr(arr2));
-
-                                        }
-
-                                    }
+                                    input.value = pluginSettings.rules[inputsId].messageMatch;
 
                                 }
 
@@ -113,15 +103,89 @@ button.addEventListener( "click" , function(e) {
 
                     }
 
-                } // !messages circle
+                }
+                // console.log( pluginSettings.rules[inputsId] );
 
-            } // !rules circle
+
 
         }
 
     }
 
+
+
+
+
+
+
+
+
+
+    // for (var i = 0; i < formAccess.length; i++) {
+
+    //     if( formAccess[i].getAttribute('type') == 'text' ){
+
+            // if (!formAccess[i].value) {
+
+            //     var parent  = formAccess[i].parentNode,
+            //     messageElem = document.createElement('span');
+
+            //     messageElem.className = "b-form__error";
+            //     parent.insertBefore(messageElem, formAccess[i]);
+
+            //     formAccess[i].classList.add('error_border');
+
+            // }
+
+            // messageElem.innerHTML = errorMessages.data[key];
+
+            // var inputId = formAccess[i].getAttribute('id');
+                // console.log(inputId);
+
+            // for ( var rulesKey in pluginSettings.rules) {
+
+            //     var arr = [];
+
+            //     var matchedIdInput = document.getElementById(rulesKey);
+
+            // // если в rules есть true,
+
+            //     if ( pluginSettings.rules[rulesKey].required === true ) {
+
+            //         if (!matchedIdInput.value) {
+
+            //             showError(matchedIdInput, pluginSettings.rules[rulesKey].messageRequired);
+            //         }
+
+            //         if (pluginSettings.rules[rulesKey].minLength) {
+
+            //             console.log('key exist');
+
+            //             if ( matchedIdInput.value.length < pluginSettings.rules[rulesKey].minLength ) {
+
+
+            //                 showError(matchedIdInput, pluginSettings.rules[rulesKey].messageLength);
+
+
+            //             }
+
+            //         }
+
+            //     }
+
+            // }
+
+    //     }
+
+    // }
+
 } );
+
+
+
+
+
+
 
 createElements( formAccess );
 
@@ -194,16 +258,17 @@ function createError ( element, message ) {
 
 }
 
-// delete array unique
+function showError(input, message) {
 
-function uniqueArr(arr) {
-    var obj = {};
+  var parent  = input.parentNode,
+      messageElem = document.createElement('span');
 
-    for (var i = 0; i < arr.length; i++) {
-        var str = arr[i];
-        obj[str] = true; // запомнить строку в виде свойства объекта
-    }
+  messageElem.className = "b-form__error";
+  parent.insertBefore(messageElem, input);
 
-    return Object.keys(obj); // или собрать ключи перебором для IE8-
+  input.classList.add('error_border');
+
+  messageElem.innerHTML = message;
+
 }
 
