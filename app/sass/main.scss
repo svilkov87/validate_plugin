@@ -47,6 +47,12 @@ body {
     .b-form__error {
       display: block;
       position: absolute;
+      text-align: right;
+      padding: 5px;
+      background: #fff;
+      border: 1px solid #000;
+      border-radius: 3px;
+      z-index: 1;
       top: 30px;
       right: 10px;
       color: red;
