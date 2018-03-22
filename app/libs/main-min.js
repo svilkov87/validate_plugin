@@ -68,34 +68,44 @@ button.addEventListener( "click" , function(e) {
                 inputsId = inputs.getAttribute('id'),
                 input    = document.getElementById(inputsId);
 
-                for (var j = 0; j < objectArray.length; j++) {
+            for (var j = 0; j < objectArray.length; j++) {
 
-                    if (inputsId == objectArray[j]) {
+                if (inputsId == objectArray[j]) {
 
-                        // console.log( pluginSettings.rules[inputsId]);
+                    // console.log( pluginSettings.rules[inputsId]);
 
-                        if ( pluginSettings.rules[inputsId].required === true ) {
+                    if ( pluginSettings.rules[inputsId].required === true ) {
 
-                            if ( !input.value ) {
-                                input.value = pluginSettings.rules[inputsId].messageRequired;
+                        if ( !input.value ) {
+                            input.value = pluginSettings.rules[inputsId].messageRequired;
+                        }
+                        else if ( input.value.length < pluginSettings.rules[inputsId].minLength ) {
+
+                            input.value = pluginSettings.rules[inputsId].messageLength;
+
+                        }
+                        else if ( pluginSettings.rules[inputsId].matched ) {
+
+                            var matched = document.getElementById(pluginSettings.rules[inputsId].matched);
+
+                            if ( matched.value != input.value) {
+
+                                input.value = pluginSettings.rules[inputsId].messageMatch;
+
                             }
-                            else if ( input.value.length < pluginSettings.rules[inputsId].minLength ) {
 
-                                input.value = pluginSettings.rules[inputsId].messageLength;
+                        }
+                        else if ( pluginSettings.rules[inputsId].exist ) {
 
-                            }
-                            else if ( pluginSettings.rules[inputsId].matched ) {
+                            var existedArr   = pluginSettings.rules[inputsId].exist,
+                                existedValue = input.value;
 
-                                var matched = document.getElementById(pluginSettings.rules[inputsId].matched);
+                                // console.log( existedValue );
+                                console.log( pluginSettings.rules[inputsId].exist );
 
-                                                        console.log( input.value );
-                                                        console.log( matched.value );
+                            if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
 
-                                if ( matched.value != input.value) {
-
-                                    input.value = pluginSettings.rules[inputsId].messageMatch;
-
-                                }
+                                input.value = pluginSettings.rules[inputsId].messageExist;
 
                             }
 
@@ -104,21 +114,12 @@ button.addEventListener( "click" , function(e) {
                     }
 
                 }
-                // console.log( pluginSettings.rules[inputsId] );
 
-
+            }
 
         }
 
     }
-
-
-
-
-
-
-
-
 
 
     // for (var i = 0; i < formAccess.length; i++) {
@@ -181,12 +182,6 @@ button.addEventListener( "click" , function(e) {
 
 } );
 
-
-
-
-
-
-
 createElements( formAccess );
 
 //create inputs function
@@ -197,7 +192,7 @@ function createElements ( elem ) {
 
         if( elem[i].getAttribute('type') == 'text' ){
 
-            var wrapper            = document.createElement('div'),
+            var wrapper        = document.createElement('div'),
             dataLabelattribute = elem[i].getAttribute('data-label'),
             inputId            = elem[i].getAttribute('id'),
             label              = document.createElement('label');
@@ -205,10 +200,10 @@ function createElements ( elem ) {
         // if you want to use plugin's styles
             if(validate.defaultStyles === undefined || validate.defaultStyles === true) {
 
-                form.className          = "b-form";
-                wrapper.className       = "b-form__block";
-                label.className         = 'b-form__label';
-                elem[i].className       = 'b-form__input';
+                form.className    = "b-form";
+                wrapper.className = "b-form__block";
+                label.className   = 'b-form__label';
+                elem[i].className = 'b-form__input';
 
             }
 
@@ -220,13 +215,9 @@ function createElements ( elem ) {
             label.innerHTML = dataLabelattribute;
             label.setAttribute('for', inputId);
 
-      // createError(elem[i], 'lalala');
-
-
-
         }   else if ( elem[i].getAttribute('type') == 'button') {
 
-        // if you want to use plugin's styles
+            // if you want to use plugin's styles
             if(validate.defaultStyles === undefined || validate.defaultStyles === true) {
 
             elem[i].className = 'b-form__button';
@@ -244,7 +235,7 @@ function createError ( element, message ) {
 
   if(!element.value) {
 
-        var parent      = element.parentNode,
+        var parent  = element.parentNode,
         messageElem = document.createElement('span');
 
         messageElem.className = "b-form__error";
@@ -260,7 +251,7 @@ function createError ( element, message ) {
 
 function showError(input, message) {
 
-  var parent  = input.parentNode,
+  var parent      = input.parentNode,
       messageElem = document.createElement('span');
 
   messageElem.className = "b-form__error";
