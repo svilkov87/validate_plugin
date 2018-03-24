@@ -18,19 +18,21 @@ body {
   border-radius: 15px;
   max-width: 760px;
   overflow: hidden;
-  box-shadow: 6px 6px 26px 0px rgba(50, 50, 50, 0.23);
+  // box-shadow: 6px 6px 26px 0px rgba(50, 50, 50, 0.23);
   .b-form__block {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     margin-bottom: 20px;
-    height: 60px;
+    min-height: 60px;
     justify-content: space-between;
-    .b-form__label {
-      width: 80%;
-      text-align: right;
-      padding: 6px 4px;
+    .b-form__wrapper-label {
+      .b-form__label {
+        width: 80%;
+        text-align: right;
+        padding: 6px 4px;
+      }
     }
     .b-form__input {
       padding-left: 10px;
@@ -44,6 +46,9 @@ body {
       border-bottom: 1px solid #e7e7e7;
       font-size: 14px;
       padding: 6px 4px;
+      &:focus {
+        border-bottom: 1px solid;
+      }
     }
     .b-form__error {
       display: block;

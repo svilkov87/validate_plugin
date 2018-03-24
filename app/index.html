@@ -14,12 +14,12 @@
 <body>
 <form action="" id="b-form">
   <input type="text" data-label="login" id="login" name="login">
-  <input type="text" data-label="You're email" id="e-mail" name="email">
-  <input type="text" data-label="Password" id="password" name="password">
-  <input type="text" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
-  <button type="button" name="send">Login</button>
+  <input type="text" data-label="You're email" id="e-mail" name="e-mail">
+  <input type="password" data-label="Password" id="password" name="password">
+  <input type="password" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
+  <textarea data-label="Message" name="message"></textarea>
+  <button type="button" name="send" type="submit">Login</button>
 </form>
-
 <script>
   var validate_test = ({
     formId : 'b-form',
@@ -61,19 +61,19 @@
 
 
 <script>
-  var validate = ({
-    formId : 'b-form',
-    errorMessages : {
-      'login' : 'Login is not required-custom',
-      'e-mail': 'Email is not required-custom',
-      'password' : 'Login is not required-custom',
-      'password' : {
-        'repeat_password' : 'Password is not match-custom'
-      },
-      'repeat_password' : 'Login is not required-custom'
-    }
-    // defaultStyles  : false
-  });
+  // var validate = ({
+  //   formId : 'b-form',
+  //   errorMessages : {
+  //     'login' : 'Login is not required-custom',
+  //     'e-mail': 'Email is not required-custom',
+  //     'password' : 'Login is not required-custom',
+  //     'password' : {
+  //       'repeat_password' : 'Password is not match-custom'
+  //     },
+  //     'repeat_password' : 'Login is not required-custom'
+  //   }
+  //   // defaultStyles  : false
+  // });
 </script>
 <script src="libs/main-min.js"></script>
 </body>
