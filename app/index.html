@@ -21,59 +21,39 @@
   <button type="button" name="send" type="submit">Login</button>
 </form>
 <script>
-  var validate_test = ({
+var pluginSettings = {
     formId : 'b-form',
-    messages : {
-        'login' : {
-            messageRequired : 'Login is not required-custom',
-            messageLength   : 'Login must be more 4 symbols-custom'
-        },
-        'password' : {
-            messageRequired : 'Password is not required-custom',
-            messageLength   : 'Password must be more 8 symbols-custom',
-            messageMatch    : 'Passwords is not match-custom'
-        },
-        'e-mail' : {
-            messageRequired : 'Email is not required-custom',
-            messageLength   : 'Email must be more 8 symbols-custom',
-            messageMatch    : 'Email must contain match-custom'
-        }
-    },
-    rules : {
+    rules  : {
         'login' : {
             required  : true,
+            messageRequired : 'Login is not required-plugin',
+            messageLength   : 'Login must be more 4 symbols-plugin',
+            // required  : false,
             minLength : 4
         },
         'password' : {
             minLength : 8,
             required  : true,
-            matched   : 'repeat-password'
+            matched   : 'repeat-password',
+            messageRequired : 'Password is not required-plugin',
+            messageLength   : 'Password must be more 8 symbols-plugin',
+            messageMatch    : 'Passwords is not match-plugin'
         },
         'e-mail' : {
             minLength : 8,
             required  : true,
+            messageRequired : 'Email is not required-plugin',
+            messageLength   : 'Email must be more 8 symbols-plugin',
+            messageExist    : 'Email must contain @, .com, .ru symbols-plugin',
             exist     : ['@','.ru','.com']
+        },
+        'message' : {
+            minLength : 10,
+            required  : false
         }
     }
-    // defaultStyles  : false
-  });
-</script>
-
-
-<script>
-  // var validate = ({
-  //   formId : 'b-form',
-  //   errorMessages : {
-  //     'login' : 'Login is not required-custom',
-  //     'e-mail': 'Email is not required-custom',
-  //     'password' : 'Login is not required-custom',
-  //     'password' : {
-  //       'repeat_password' : 'Password is not match-custom'
-  //     },
-  //     'repeat_password' : 'Login is not required-custom'
-  //   }
-  //   // defaultStyles  : false
-  // });
+    // defaultStyles : false
+};
 </script>
 <script src="libs/main-min.js"></script>
 </body>

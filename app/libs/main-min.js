@@ -1,46 +1,10 @@
 'use strict';
 
-// создать стили формы плагина или кастомные
-// сообщения об ошибках выводить в диве, в котором будет label
-
-var pluginSettings = {
-    formId : 'b-form',
-    rules  : {
-        'login' : {
-            required  : true,
-            messageRequired : 'Login is not required-plugin',
-            messageLength   : 'Login must be more 4 symbols-plugin',
-            // required  : false,
-            minLength : 4
-        },
-        'password' : {
-            minLength : 8,
-            required  : true,
-            matched   : 'repeat-password',
-            messageRequired : 'Password is not required-plugin',
-            messageLength   : 'Password must be more 8 symbols-plugin',
-            messageMatch    : 'Passwords is not match-plugin'
-        },
-        'e-mail' : {
-            minLength : 8,
-            required  : true,
-            messageRequired : 'Email is not required-plugin',
-            messageLength   : 'Email must be more 8 symbols-plugin',
-            messageExist    : 'Email must contain @, .com, .ru symbols-plugin',
-            exist     : ['@','.ru','.com']
-        },
-        'message' : {
-            minLength : 10,
-            required  : false
-        }
-    }
-    // defaultStyles : false
-};
-
 var form       = document.getElementById(pluginSettings.formId),
-    printBlock = document.getElementById('printBlock'),
+    blocks     = document.getElementsByClassName('b-form__wrapper-label'),
     // textareatest = document.getElementById('textareatest'),
     formAccess = form.elements;
+
 
 // find plugin's button
 
@@ -60,6 +24,7 @@ for (var i = 0; i < form.length; i++){
 }
 
 var objectArray = [];
+var resultObject = {};
 
 for ( var objectKey in pluginSettings.rules) {
 
@@ -67,118 +32,76 @@ for ( var objectKey in pluginSettings.rules) {
 
 }
 
-            textarea.addEventListener('keyup', function(){
-
-                console.log(this.value);
-
-            } );
-
 button.addEventListener( "click" , function(e) {
     event.preventDefault();
 
+    deleteSpanError( formAccess );
+
     for ( var i = 0; i < formAccess.length; i++ ) {
 
-        console.log(formAccess[i].value);
+        if( formAccess[i].getAttribute('type') == 'text' || formAccess[i].getAttribute('type') == 'password' ){
 
-        // if ( !formAccess[i].value ) { // обязательное условие
+            // find plugin's inputs
+            var inputs     = formAccess[i],
+                inputsName = inputs.getAttribute('name'),
+                input      = document.getElementById(inputsName);
 
-            if( formAccess[i].getAttribute('type') == 'text' || formAccess[i].getAttribute('type') == 'password' ){
+            for (var j = 0; j < objectArray.length; j++) {
 
-                // find plugin's inputs
-                var inputs     = formAccess[i],
-                    inputsName = inputs.getAttribute('name'),
-                    input      = document.getElementById(inputsName);
+                if (inputsName == objectArray[j]) {
 
-                for (var j = 0; j < objectArray.length; j++) {
+                    if ( pluginSettings.rules[inputsName].required === true ) {
 
-                    if (inputsName == objectArray[j]) {
+                        if ( !input.value ) {
 
-                        if ( pluginSettings.rules[inputsName].required === true ) {
+                            showErrors ( inputs, pluginSettings.rules[inputsName].messageRequired );
+                            // var errorSpan    = document.createElement('span'),
+                            // labelWrapper = inputs.previousSibling;
 
-                            if ( !input.value ) {
-                                input.value = pluginSettings.rules[inputsName].messageRequired;
-                            }
-                            else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
+                            // errorSpan.className = "b-form__error-span";
 
-                                input.value = pluginSettings.rules[inputsName].messageLength;
+                            // labelWrapper.appendChild(errorSpan);
+                            // // input.value = pluginSettings.rules[inputsName].messageRequired;
+                            // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageRequired;
+                        }
+                        else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
 
-                            }
-                            else if ( pluginSettings.rules[inputsName].matched ) {
+                            showErrors ( inputs, pluginSettings.rules[inputsName].messageLength );
+                            // var errorSpan    = document.createElement('span'),
+                            // labelWrapper = inputs.previousSibling;
 
-                                var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
+                            // errorSpan.className = "b-form__error-span";
+
+                            // labelWrapper.appendChild(errorSpan);
+
+                            // // input.value = pluginSettings.rules[inputsName].messageLength;
+                            // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageLength;
+
+                        }
+                        else if ( pluginSettings.rules[inputsName].matched ) {
+
+                            var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
 
 
-                                if ( matched.value != input.value) {
+                            if ( matched.value != input.value) {
 
-                                    input.value = pluginSettings.rules[inputsName].messageMatch;
+                                showErrors ( inputs, pluginSettings.rules[inputsName].messageMatch );
 
-                                }
+                                // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageMatch;
 
-                            }
-                            else if ( pluginSettings.rules[inputsName].exist ) {
-
-                                var existedArr   = pluginSettings.rules[inputsName].exist,
-                                    existedValue = input.value;
-
-                                if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
-
-                                    input.value = pluginSettings.rules[inputsName].messageExist;
-
-                                }
+                                // input.value = pluginSettings.rules[inputsName].messageMatch;
 
                             }
 
                         }
+                        else if ( pluginSettings.rules[inputsName].exist ) {
 
-                    }
+                            var existedArr   = pluginSettings.rules[inputsName].exist,
+                                existedValue = input.value;
 
-                }
+                            if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
 
-            }
-            else if ( formAccess[i].tagName == 'TEXTAREA' ) {
-
-                var inputs     = formAccess[i],
-                    inputsName = inputs.getAttribute('name');
-                    // input      = document.getElementById(inputsName);
-
-                    console.log(inputsName);
-
-                for (var j = 0; j < objectArray.length; j++) {
-
-                    if (inputsName == objectArray[j]) {
-
-                        if ( pluginSettings.rules[inputsName].required === true ) {
-
-                            if ( !input.value ) {
-                                input.value = pluginSettings.rules[inputsName].messageRequired;
-                            }
-                            else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
-
-                                input.value = pluginSettings.rules[inputsName].messageLength;
-
-                            }
-                            else if ( pluginSettings.rules[inputsName].matched ) {
-
-                                var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
-
-
-                                if ( matched.value != input.value) {
-
-                                    input.value = pluginSettings.rules[inputsName].messageMatch;
-
-                                }
-
-                            }
-                            else if ( pluginSettings.rules[inputsName].exist ) {
-
-                                var existedArr   = pluginSettings.rules[inputsName].exist,
-                                    existedValue = input.value;
-
-                                if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
-
-                                    input.value = pluginSettings.rules[inputsName].messageExist;
-
-                                }
+                                showErrors ( inputs, pluginSettings.rules[inputsName].messageExist );
 
                             }
 
@@ -190,7 +113,60 @@ button.addEventListener( "click" , function(e) {
 
             }
 
-        // }
+        }
+        else if ( formAccess[i].tagName == 'TEXTAREA' ) {
+
+            var inputs     = formAccess[i],
+                inputsName = inputs.getAttribute('name');
+                // input      = document.getElementById(inputsName);
+
+
+            // for (var j = 0; j < objectArray.length; j++) {
+
+            //     if (inputsName == objectArray[j]) {
+
+            //         if ( pluginSettings.rules[inputsName].required === true ) {
+
+            //             if ( !input.value ) {
+            //                 input.value = pluginSettings.rules[inputsName].messageRequired;
+            //             }
+            //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
+
+            //                 input.value = pluginSettings.rules[inputsName].messageLength;
+
+            //             }
+            //             else if ( pluginSettings.rules[inputsName].matched ) {
+
+            //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
+
+
+            //                 if ( matched.value != input.value) {
+
+            //                     input.value = pluginSettings.rules[inputsName].messageMatch;
+
+            //                 }
+
+            //             }
+            //             else if ( pluginSettings.rules[inputsName].exist ) {
+
+            //                 var existedArr   = pluginSettings.rules[inputsName].exist,
+            //                     existedValue = input.value;
+
+            //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+
+            //                     input.value = pluginSettings.rules[inputsName].messageExist;
+
+            //                 }
+
+            //             }
+
+            //         }
+
+            //     }
+
+            // }
+
+        }
 
     }
 
@@ -198,7 +174,7 @@ button.addEventListener( "click" , function(e) {
 
 settings( formAccess );
 
-// create inputs, wrappers, lebels function
+// create inputs, wrappers, labels and style function
 
 function settings ( elem ) {
 
@@ -270,20 +246,21 @@ function settings ( elem ) {
 
             }
 
-            for ( var key in pluginSettings.rules ) {
+            // var count = 0;
+            // var limit = 30;
 
-                // console.log(key);
+            // elem[i].addEventListener('keyup', function(){
 
-            }
-            //     if ( elem[i] == key ) {
+            //     count++;
 
-                    elem[i].addEventListener('keyup', function(){
+            //     // for (var valueNumber = 0; valueNumber < Things.length; valueNumber++) {
+            //     //     Things[valueNumber]
+            //     // }
 
-                        // console.log(this.value);
+            //     // console.log(this.value);
+            //     console.log(limit - count);
 
-                    } );
-            //     }
-            // }
+            // } );
 
         }
 
@@ -291,36 +268,35 @@ function settings ( elem ) {
 
 }
 
-// settings
-function createError ( element, message ) {
+function showErrors ( inputs, message ) {
+    var errorSpan    = document.createElement('span'),
+    labelWrapper     = inputs.previousSibling;
 
-  if(!element.value) {
+    errorSpan.className = "b-form__error-span";
 
-        var parent  = element.parentNode,
-        messageElem = document.createElement('span');
+    labelWrapper.appendChild(errorSpan);
 
-        messageElem.className = "b-form__error";
-        parent.insertBefore(messageElem, element);
+    errorSpan.innerHTML = message;
+}
 
-        element.classList.add('error_border');
+function deleteSpanError ( elem ) {
 
-        messageElem.innerHTML = message;
+  for (var i = 0; i < elem.length; i++) {
+
+    var labelWrap = elem[i].previousElementSibling,
+        childSpan = labelWrap.querySelectorAll('span');
+
+    for (var j = 0; j < childSpan.length; j++) {
+
+      if (childSpan[j].className == "b-form__error-span"){
+
+        childSpan[j].parentNode.removeChild(childSpan[j]);
+
+      }
 
     }
 
-}
-
-function showError(input, message) {
-
-  var parent      = input.parentNode,
-      messageElem = document.createElement('span');
-
-  messageElem.className = "b-form__error";
-  parent.insertBefore(messageElem, input);
-
-  input.classList.add('error_border');
-
-  messageElem.innerHTML = message;
+  }
 
 }
 
