@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="css/libs.min.css">
 </head>
 <body>
-<form action="" id="b-form">
+<form action="" method="post" id="b-form">
   <input type="text" data-label="login" id="login" name="login">
   <input type="text" data-label="You're email" id="e-mail" name="e-mail">
   <input type="password" data-label="Password" id="password" name="password">
   <input type="password" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
   <textarea data-label="Message" name="message"></textarea>
-  <button type="button" name="send" type="submit">Login</button>
+  <button name="send" type="submit">Login</button>
 </form>
 <script>
 var pluginSettings = {
@@ -26,8 +26,8 @@ var pluginSettings = {
     rules  : {
         'login' : {
             required  : true,
-            messageRequired : 'Login is not required-plugin',
-            messageLength   : 'Login must be more 4 symbols-plugin',
+            messageRequired : 'Login is not required',
+            messageLength   : 'Login must be more 4 symbols',
             // required  : false,
             minLength : 4
         },
@@ -35,16 +35,16 @@ var pluginSettings = {
             minLength : 8,
             required  : true,
             matched   : 'repeat-password',
-            messageRequired : 'Password is not required-plugin',
-            messageLength   : 'Password must be more 8 symbols-plugin',
-            messageMatch    : 'Passwords is not match-plugin'
+            messageRequired : 'Password is not required',
+            messageLength   : 'Password must be more 8 symbols',
+            messageMatch    : 'Passwords is not match'
         },
         'e-mail' : {
             minLength : 8,
             required  : true,
-            messageRequired : 'Email is not required-plugin',
-            messageLength   : 'Email must be more 8 symbols-plugin',
-            messageExist    : 'Email must contain @, .com, .ru symbols-plugin',
+            messageRequired : 'Email is not required',
+            messageLength   : 'Email must be more 8 symbols',
+            messageExist    : 'Email must contain @, .com, .ru symbols',
             exist     : ['@','.ru','.com']
         },
         'message' : {

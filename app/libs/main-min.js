@@ -1,8 +1,6 @@
 'use strict';
 
 var form       = document.getElementById(pluginSettings.formId),
-    blocks     = document.getElementsByClassName('b-form__wrapper-label'),
-    // textareatest = document.getElementById('textareatest'),
     formAccess = form.elements;
 
 
@@ -10,7 +8,7 @@ var form       = document.getElementById(pluginSettings.formId),
 
 for (var i = 0; i < form.length; i++){
 
-    if(form[i].getAttribute('type') == 'button'){
+    if(form[i].getAttribute('type') == 'submit'){
 
         var button = form[i];
 
@@ -23,8 +21,10 @@ for (var i = 0; i < form.length; i++){
 
 }
 
+console.log(button);
+console.log(formAccess);
+
 var objectArray = [];
-var resultObject = {};
 
 for ( var objectKey in pluginSettings.rules) {
 
@@ -33,7 +33,6 @@ for ( var objectKey in pluginSettings.rules) {
 }
 
 button.addEventListener( "click" , function(e) {
-    event.preventDefault();
 
     deleteSpanError( formAccess );
 
@@ -54,28 +53,16 @@ button.addEventListener( "click" , function(e) {
 
                         if ( !input.value ) {
 
+                            e.preventDefault();
+
                             showErrors ( inputs, pluginSettings.rules[inputsName].messageRequired );
-                            // var errorSpan    = document.createElement('span'),
-                            // labelWrapper = inputs.previousSibling;
 
-                            // errorSpan.className = "b-form__error-span";
-
-                            // labelWrapper.appendChild(errorSpan);
-                            // // input.value = pluginSettings.rules[inputsName].messageRequired;
-                            // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageRequired;
                         }
                         else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
 
+                            e.preventDefault();
+
                             showErrors ( inputs, pluginSettings.rules[inputsName].messageLength );
-                            // var errorSpan    = document.createElement('span'),
-                            // labelWrapper = inputs.previousSibling;
-
-                            // errorSpan.className = "b-form__error-span";
-
-                            // labelWrapper.appendChild(errorSpan);
-
-                            // // input.value = pluginSettings.rules[inputsName].messageLength;
-                            // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageLength;
 
                         }
                         else if ( pluginSettings.rules[inputsName].matched ) {
@@ -85,11 +72,9 @@ button.addEventListener( "click" , function(e) {
 
                             if ( matched.value != input.value) {
 
+                                e.preventDefault();
+
                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageMatch );
-
-                                // errorSpan.innerHTML = pluginSettings.rules[inputsName].messageMatch;
-
-                                // input.value = pluginSettings.rules[inputsName].messageMatch;
 
                             }
 
@@ -100,6 +85,7 @@ button.addEventListener( "click" , function(e) {
                                 existedValue = input.value;
 
                             if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+                                e.preventDefault();
 
                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageExist );
 
@@ -114,59 +100,59 @@ button.addEventListener( "click" , function(e) {
             }
 
         }
-        else if ( formAccess[i].tagName == 'TEXTAREA' ) {
+        // else if ( formAccess[i].tagName == 'TEXTAREA' ) {
 
-            var inputs     = formAccess[i],
-                inputsName = inputs.getAttribute('name');
-                // input      = document.getElementById(inputsName);
-
-
-            // for (var j = 0; j < objectArray.length; j++) {
-
-            //     if (inputsName == objectArray[j]) {
-
-            //         if ( pluginSettings.rules[inputsName].required === true ) {
-
-            //             if ( !input.value ) {
-            //                 input.value = pluginSettings.rules[inputsName].messageRequired;
-            //             }
-            //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
-
-            //                 input.value = pluginSettings.rules[inputsName].messageLength;
-
-            //             }
-            //             else if ( pluginSettings.rules[inputsName].matched ) {
-
-            //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
+        //     var inputs     = formAccess[i],
+        //         inputsName = inputs.getAttribute('name');
+        //         // input      = document.getElementById(inputsName);
 
 
-            //                 if ( matched.value != input.value) {
+        //     // for (var j = 0; j < objectArray.length; j++) {
 
-            //                     input.value = pluginSettings.rules[inputsName].messageMatch;
+        //     //     if (inputsName == objectArray[j]) {
 
-            //                 }
+        //     //         if ( pluginSettings.rules[inputsName].required === true ) {
 
-            //             }
-            //             else if ( pluginSettings.rules[inputsName].exist ) {
+        //     //             if ( !input.value ) {
+        //     //                 input.value = pluginSettings.rules[inputsName].messageRequired;
+        //     //             }
+        //     //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
 
-            //                 var existedArr   = pluginSettings.rules[inputsName].exist,
-            //                     existedValue = input.value;
+        //     //                 input.value = pluginSettings.rules[inputsName].messageLength;
 
-            //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+        //     //             }
+        //     //             else if ( pluginSettings.rules[inputsName].matched ) {
 
-            //                     input.value = pluginSettings.rules[inputsName].messageExist;
+        //     //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
 
-            //                 }
 
-            //             }
+        //     //                 if ( matched.value != input.value) {
 
-            //         }
+        //     //                     input.value = pluginSettings.rules[inputsName].messageMatch;
 
-            //     }
+        //     //                 }
 
-            // }
+        //     //             }
+        //     //             else if ( pluginSettings.rules[inputsName].exist ) {
 
-        }
+        //     //                 var existedArr   = pluginSettings.rules[inputsName].exist,
+        //     //                     existedValue = input.value;
+
+        //     //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+
+        //     //                     input.value = pluginSettings.rules[inputsName].messageExist;
+
+        //     //                 }
+
+        //     //             }
+
+        //     //         }
+
+        //     //     }
+
+        //     // }
+
+        // }
 
     }
 
@@ -212,7 +198,7 @@ function settings ( elem ) {
             }
 
         }
-        else if ( elem[i].getAttribute('type') == 'button') {
+        else if ( elem[i].getAttribute('type') == 'submit') {
 
             // if you want to use plugin's styles
             if(pluginSettings.defaultStyles === undefined || pluginSettings.defaultStyles === true) {
@@ -269,8 +255,12 @@ function settings ( elem ) {
 }
 
 function showErrors ( inputs, message ) {
+
     var errorSpan    = document.createElement('span'),
     labelWrapper     = inputs.previousSibling;
+
+    // inputs.className = "error_border";
+    inputs.classList.add("error_border");
 
     errorSpan.className = "b-form__error-span";
 
