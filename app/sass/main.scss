@@ -74,18 +74,17 @@ body {
       }
       .rotate {
         animation: rotate .4s ease-in-out;
-        color: #fff;
-        background: red;
+        color: red;
         padding: 5px;
         @-webkit-keyframes rotate {
           0% {
             opacity: 0;
           }
           50% {
-            transform: rotate(180deg);
+            transform: rotate(4deg);
           }
           100% {
-            transform: rotate(-180deg);
+            transform: rotate(-2deg);
           }
         }
       }
