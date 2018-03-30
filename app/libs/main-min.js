@@ -21,9 +21,6 @@ for (var i = 0; i < form.length; i++){
 
 }
 
-console.log(button);
-console.log(formAccess);
-
 var objectArray = [];
 
 for ( var objectKey in pluginSettings.rules) {
@@ -257,16 +254,18 @@ function settings ( elem ) {
 function showErrors ( inputs, message ) {
 
     var errorSpan    = document.createElement('span'),
-    labelWrapper     = inputs.previousSibling;
+        dataEffect   = inputs.getAttribute('data-effect').split(" "),
+        labelWrapper  = inputs.previousSibling;
 
-    // inputs.className = "error_border";
     inputs.classList.add("error_border");
+    labelWrapper.classList.add(dataEffect[dataEffect.length - 1]);
 
-    errorSpan.className = "b-form__error-span";
+    errorSpan.className = "b-form__error-span " + dataEffect[dataEffect.length - 1];
 
     labelWrapper.appendChild(errorSpan);
 
     errorSpan.innerHTML = message;
+
 }
 
 function deleteSpanError ( elem ) {
@@ -274,11 +273,13 @@ function deleteSpanError ( elem ) {
   for (var i = 0; i < elem.length; i++) {
 
     var labelWrap = elem[i].previousElementSibling,
+        dataEffect = elem[i].getAttribute('data-effect'),
         childSpan = labelWrap.querySelectorAll('span');
 
     for (var j = 0; j < childSpan.length; j++) {
 
-      if (childSpan[j].className == "b-form__error-span"){
+      // if (childSpan[j].className == "b-form__error-span"){
+      if (childSpan[j].classList.contains('b-form__error-span')){
 
         childSpan[j].parentNode.removeChild(childSpan[j]);
 
