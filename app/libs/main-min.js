@@ -3,7 +3,6 @@
 var form       = document.getElementById(pluginSettings.formId),
     formAccess = form.elements;
 
-
 // find plugin's button
 
 for (var i = 0; i < form.length; i++){
@@ -11,11 +10,6 @@ for (var i = 0; i < form.length; i++){
     if(form[i].getAttribute('type') == 'submit'){
 
         var button = form[i];
-
-    }
-    else if ( form[i].tagName == 'TEXTAREA' ) {
-
-        var textarea = form[i];
 
     }
 
@@ -29,62 +23,67 @@ for ( var objectKey in pluginSettings.rules) {
 
 }
 
-button.addEventListener( "click" , function(e) {
+var count = 0;
 
-    deleteSpanError( formAccess );
+for (var i = 0; i < formAccess.length; i++) {
 
-    for ( var i = 0; i < formAccess.length; i++ ) {
+    var formElements = formAccess[i];
+        // inputsName = formElements.getAttribute('name'),
+        // input      = document.getElementById(inputsName);
 
-        if( formAccess[i].getAttribute('type') == 'text' || formAccess[i].getAttribute('type') == 'password' ){
+    formElements.addEventListener('keyup', function(){
 
-            // find plugin's inputs
-            var inputs     = formAccess[i],
-                inputsName = inputs.getAttribute('name'),
-                input      = document.getElementById(inputsName);
+        var inputsName = this.getAttribute('name'),
+        input      = document.getElementById(inputsName);
+
+        // console.log( this.getAttribute('type') );
+        console.log( inputsName );
+
+        deleteSpanError( formAccess );
+
+        if( this.getAttribute('type') == 'text' || this.getAttribute('type') == 'password' ){
+
+            count + 1;
+
 
             for (var j = 0; j < objectArray.length; j++) {
 
                 if (inputsName == objectArray[j]) {
 
-                    if ( pluginSettings.rules[inputsName].required === true ) {
+                    if ( pluginSettings.rules[inputsName].required ) {
 
-                        if ( !input.value ) {
+                        if ( !this.value ) {
 
-                            e.preventDefault();
-
-                            showErrors ( inputs, pluginSettings.rules[inputsName].messageRequired );
+                            showErrors ( this, pluginSettings.rules[inputsName].messageRequired );
 
                         }
-                        else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
 
-                            e.preventDefault();
+                        else if ( this.value.length < pluginSettings.rules[inputsName].minLength ) {
 
-                            showErrors ( inputs, pluginSettings.rules[inputsName].messageLength );
+                            showErrors ( this, pluginSettings.rules[inputsName].messageLength );
 
                         }
+
                         else if ( pluginSettings.rules[inputsName].matched ) {
 
                             var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
 
+                            if ( matched.value != this.value) {
 
-                            if ( matched.value != input.value) {
-
-                                e.preventDefault();
-
-                                showErrors ( inputs, pluginSettings.rules[inputsName].messageMatch );
+                                showErrors ( this, pluginSettings.rules[inputsName].messageMatch );
 
                             }
 
                         }
+
                         else if ( pluginSettings.rules[inputsName].exist ) {
 
                             var existedArr   = pluginSettings.rules[inputsName].exist,
-                                existedValue = input.value;
+                                existedValue = this.value;
 
                             if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
-                                e.preventDefault();
 
-                                showErrors ( inputs, pluginSettings.rules[inputsName].messageExist );
+                                showErrors ( this, pluginSettings.rules[inputsName].messageExist );
 
                             }
 
@@ -97,63 +96,139 @@ button.addEventListener( "click" , function(e) {
             }
 
         }
-        // else if ( formAccess[i].tagName == 'TEXTAREA' ) {
-
-        //     var inputs     = formAccess[i],
-        //         inputsName = inputs.getAttribute('name');
-        //         // input      = document.getElementById(inputsName);
 
 
-        //     // for (var j = 0; j < objectArray.length; j++) {
+    } );
 
-        //     //     if (inputsName == objectArray[j]) {
+}
 
-        //     //         if ( pluginSettings.rules[inputsName].required === true ) {
+// button.addEventListener( "click" , function(e) {
 
-        //     //             if ( !input.value ) {
-        //     //                 input.value = pluginSettings.rules[inputsName].messageRequired;
-        //     //             }
-        //     //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
+//     e.preventDefault();
 
-        //     //                 input.value = pluginSettings.rules[inputsName].messageLength;
+//     deleteSpanError( formAccess );
 
-        //     //             }
-        //     //             else if ( pluginSettings.rules[inputsName].matched ) {
+//     for ( var i = 0; i < formAccess.length; i++ ) {
 
-        //     //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
+//         if( formAccess[i].getAttribute('type') == 'text' || formAccess[i].getAttribute('type') == 'password' ){
+
+//             // find plugin's inputs
+//             var inputs     = formAccess[i],
+//                 inputsName = inputs.getAttribute('name'),
+//                 input      = document.getElementById(inputsName);
+
+//             for (var j = 0; j < objectArray.length; j++) {
+
+//                 if (inputsName == objectArray[j]) {
+
+//                     if ( pluginSettings.rules[inputsName].required === true ) {
+
+//                         if ( !input.value ) {
+
+//                             e.preventDefault();
+
+//                             showErrors ( inputs, pluginSettings.rules[inputsName].messageRequired );
+
+//                         }
+//                         else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
+
+//                             e.preventDefault();
+
+//                             showErrors ( inputs, pluginSettings.rules[inputsName].messageLength );
+
+//                         }
+//                         else if ( pluginSettings.rules[inputsName].matched ) {
+
+//                             var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
 
 
-        //     //                 if ( matched.value != input.value) {
+//                             if ( matched.value != input.value) {
 
-        //     //                     input.value = pluginSettings.rules[inputsName].messageMatch;
+//                                 e.preventDefault();
 
-        //     //                 }
+//                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageMatch );
 
-        //     //             }
-        //     //             else if ( pluginSettings.rules[inputsName].exist ) {
+//                             }
 
-        //     //                 var existedArr   = pluginSettings.rules[inputsName].exist,
-        //     //                     existedValue = input.value;
+//                         }
+//                         else if ( pluginSettings.rules[inputsName].exist ) {
 
-        //     //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+//                             var existedArr   = pluginSettings.rules[inputsName].exist,
+//                                 existedValue = input.value;
 
-        //     //                     input.value = pluginSettings.rules[inputsName].messageExist;
+//                             if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+//                                 e.preventDefault();
 
-        //     //                 }
+//                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageExist );
 
-        //     //             }
+//                             }
 
-        //     //         }
+//                         }
 
-        //     //     }
+//                     }
 
-        //     // }
+//                 }
 
-        // }
+//             }
 
-    }
+//         }
+//         // else if ( formAccess[i].tagName == 'TEXTAREA' ) {
 
-} );
+//         //     var inputs     = formAccess[i],
+//         //         inputsName = inputs.getAttribute('name');
+//         //         // input      = document.getElementById(inputsName);
+
+
+//         //     // for (var j = 0; j < objectArray.length; j++) {
+
+//         //     //     if (inputsName == objectArray[j]) {
+
+//         //     //         if ( pluginSettings.rules[inputsName].required === true ) {
+
+//         //     //             if ( !input.value ) {
+//         //     //                 input.value = pluginSettings.rules[inputsName].messageRequired;
+//         //     //             }
+//         //     //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
+
+//         //     //                 input.value = pluginSettings.rules[inputsName].messageLength;
+
+//         //     //             }
+//         //     //             else if ( pluginSettings.rules[inputsName].matched ) {
+
+//         //     //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
+
+
+//         //     //                 if ( matched.value != input.value) {
+
+//         //     //                     input.value = pluginSettings.rules[inputsName].messageMatch;
+
+//         //     //                 }
+
+//         //     //             }
+//         //     //             else if ( pluginSettings.rules[inputsName].exist ) {
+
+//         //     //                 var existedArr   = pluginSettings.rules[inputsName].exist,
+//         //     //                     existedValue = input.value;
+
+//         //     //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
+
+//         //     //                     input.value = pluginSettings.rules[inputsName].messageExist;
+
+//         //     //                 }
+
+//         //     //             }
+
+//         //     //         }
+
+//         //     //     }
+
+//         //     // }
+
+//         // }
+
+//     }
+
+// } );
 
 settings( formAccess );
 
@@ -177,7 +252,7 @@ function settings ( elem ) {
                 label.className   = 'b-form__label';
                 elem[i].className = 'b-form__input';
 
-                elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
+                // elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
 
                 // var parent  = elem[i].parentNode;
                 // parent.insertBefore(label, elem[i]);
@@ -219,7 +294,7 @@ function settings ( elem ) {
                 label.className   = 'b-form__label';
                 elem[i].className = 'b-form__input';
 
-                elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
+                // elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
 
                 var parent  = elem[i].parentNode;
                 parent.insertBefore(wrapperLabel, elem[i]);
@@ -228,22 +303,6 @@ function settings ( elem ) {
                 label.setAttribute('for', inputId);
 
             }
-
-            // var count = 0;
-            // var limit = 30;
-
-            // elem[i].addEventListener('keyup', function(){
-
-            //     count++;
-
-            //     // for (var valueNumber = 0; valueNumber < Things.length; valueNumber++) {
-            //     //     Things[valueNumber]
-            //     // }
-
-            //     // console.log(this.value);
-            //     console.log(limit - count);
-
-            // } );
 
         }
 
