@@ -3,8 +3,6 @@
 var form       = document.getElementById(pluginSettings.formId),
     formAccess = form.elements;
 
-// find plugin's button
-
 for (var i = 0; i < form.length; i++){
 
     if(form[i].getAttribute('type') == 'submit'){
@@ -24,33 +22,29 @@ for ( var objectKey in pluginSettings.rules) {
 }
 
 var count = 0;
+var countEventArr = [];
 
-for (var i = 0; i < formAccess.length; i++) {
+for ( var i = 0; i < formAccess.length; i++ ) {
 
     var formElements = formAccess[i];
-        // inputsName = formElements.getAttribute('name'),
-        // input      = document.getElementById(inputsName);
 
-    formElements.addEventListener('keyup', function(){
+    formElements.addEventListener( 'keyup', function(e){
 
+        var keyEvent = window.event;
         var inputsName = this.getAttribute('name'),
-        input      = document.getElementById(inputsName);
+            input      = document.getElementById(inputsName);
 
-        // console.log( this.getAttribute('type') );
-        console.log( inputsName );
-
-        deleteSpanError( formAccess );
+        // deleteSpanError( this );
 
         if( this.getAttribute('type') == 'text' || this.getAttribute('type') == 'password' ){
 
-            count + 1;
+            for ( var j = 0; j < objectArray.length; j++ ) {
 
-
-            for (var j = 0; j < objectArray.length; j++) {
-
-                if (inputsName == objectArray[j]) {
+                if ( inputsName == objectArray[j] ) {
 
                     if ( pluginSettings.rules[inputsName].required ) {
+
+                        console.log( this.value.length );
 
                         if ( !this.value ) {
 
@@ -58,9 +52,29 @@ for (var i = 0; i < formAccess.length; i++) {
 
                         }
 
-                        else if ( this.value.length < pluginSettings.rules[inputsName].minLength ) {
+                        // else if ( this.value.length < pluginSettings.rules[inputsName].minLength ) {
+                        else if ( this.value.length <= 1 && keyEvent.key != 'Backspace' ) {
 
                             showErrors ( this, pluginSettings.rules[inputsName].messageLength );
+
+                        }
+
+                        // else if ( this.value.length < pluginSettings.rules[inputsName].minLength && this.value.length == pluginSettings.rules[inputsName].minLength - 1 ) {
+                        else if ( this.value.length == pluginSettings.rules[inputsName].minLength ) {
+
+                            deleteSpanError( this );
+
+                        }
+
+                        else if ( this.value.length == pluginSettings.rules[inputsName].minLength - 1 && keyEvent.key == 'Backspace' ) {
+
+                            showErrors ( this, pluginSettings.rules[inputsName].messageLength );
+
+                        }
+
+                        else if ( this.value.length < 1 ) {
+
+                            deleteSpanError( this );
 
                         }
 
@@ -310,34 +324,39 @@ function settings ( elem ) {
 
 }
 
+// function showErrors ( inputs, message ) {
 function showErrors ( inputs, message ) {
 
-    var errorSpan    = document.createElement('span'),
-        dataEffect   = inputs.getAttribute('data-effect').split(" "),
-        labelWrapper  = inputs.previousSibling;
+    // return false;
+    // if ( inputs.value.length == 2 && inputs.value.length < lengthValue ) {
 
-    inputs.classList.add("error_border");
-    labelWrapper.classList.add(dataEffect[dataEffect.length - 1]);
+    //     return false;
 
-    errorSpan.className = "b-form__error-span " + dataEffect[dataEffect.length - 1];
+    // } else {
 
-    labelWrapper.appendChild(errorSpan);
+        var errorSpan    = document.createElement('span'),
+            dataEffect   = inputs.getAttribute('data-effect').split(" "),
+            labelWrapper  = inputs.previousSibling;
 
-    errorSpan.innerHTML = message;
+        inputs.classList.add("error_border");
+        labelWrapper.classList.add(dataEffect[dataEffect.length - 1]);
+
+        errorSpan.className = "b-form__error-span " + dataEffect[dataEffect.length - 1];
+
+        labelWrapper.appendChild(errorSpan);
+
+        errorSpan.innerHTML = message;
+    // }
 
 }
 
 function deleteSpanError ( elem ) {
 
-  for (var i = 0; i < elem.length; i++) {
-
-    var labelWrap = elem[i].previousElementSibling,
-        dataEffect = elem[i].getAttribute('data-effect'),
+    var labelWrap = elem.previousElementSibling,
         childSpan = labelWrap.querySelectorAll('span');
 
     for (var j = 0; j < childSpan.length; j++) {
 
-      // if (childSpan[j].className == "b-form__error-span"){
       if (childSpan[j].classList.contains('b-form__error-span')){
 
         childSpan[j].parentNode.removeChild(childSpan[j]);
@@ -345,8 +364,6 @@ function deleteSpanError ( elem ) {
       }
 
     }
-
-  }
 
 }
 
