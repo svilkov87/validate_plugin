@@ -2,59 +2,56 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>validate</title>
+	<title>grandpovar | главная</title>
 	<meta name="description" content="cv" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="img/favicon_fd.ico"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
-	<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/grid.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bad+Script" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/libs.min.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-<form action="" method="post" id="b-form">
-    <input type="text" data-effect="fadeIn redCard" data-label="login" id="login" name="login">
-    <input type="text" data-effect="fadeIn" data-label="You're email" id="e-mail" name="e-mail">
-    <input type="password" data-effect="fadeIn" data-label="Password" id="password" name="password">
-    <input type="password" data-effect="fadeIn" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
-    <textarea data-label="Message" data-effect="redCard" name="message"></textarea>
-    <button name="send" type="submit">Login</button>
-</form>
-<script>
-var pluginSettings = {
-    formId : 'b-form',
-    rules  : {
-        'login' : {
-            required  : true,
-            messageRequired : 'Login is not required',
-            messageLength   : 'Login must be more 4 symbols',
-            // required  : false,
-            minLength : 4
-        },
-        'password' : {
-            minLength : 8,
-            required  : true,
-            matched   : 'repeat-password',
-            messageRequired : 'Password is not required',
-            messageLength   : 'Password must be more 8 symbols',
-            messageMatch    : 'Passwords is not match'
-        },
-        'e-mail' : {
-            minLength : 8,
-            required  : true,
-            messageRequired : 'Email is not required',
-            messageLength   : 'Email must be more 8 symbols',
-            messageExist    : 'Email must contain @, .com, .ru symbols',
-            exist     : ['@','.ru','.com']
-        },
-        'message' : {
-            minLength : 10,
-            required  : false
-        }
-    }
-    // defaultStyles : false
-};
-</script>
+    <header>
+        <nav class="b-nav">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="b-nav__logo-block">
+                            <p class="b-nav__logo">Grand Povar</p>
+                            <span class="b-nav__logo-description">Энциклопедия рецептов</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="b-nav__menu-block">
+                        <i class="fa fa-bars"></i>
+                            <ul class="b-nav__ul">
+                                <li class="b-nav__li"><a href="#" class="b-nav__link">Главная</a></li>
+                                <li class="b-nav__li b-nav__li_category">
+                                    <a href="#" class="b-nav__link">
+                                        <span>Категории</span>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="b-nav__ul-child">
+                                        <li class="b-nav__list-child"><a href="" class="b-nav__link-child">Cuckoo 1055</a></li>
+                                        <li class="b-nav__list-child"><a href="" class="b-nav__link-child">Мультиварка и не только</a></li>
+                                        <li class="b-nav__list-child"><a href="" class="b-nav__link-child">Supra 5201</a></li>
+                                    </ul>
+                                </li>
+                                <li class="b-nav__li"><a href="#" class="b-nav__link">Об авторе</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="libs/main-min.js"></script>
 </body>
 </html>
