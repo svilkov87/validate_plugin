@@ -22,156 +22,172 @@ body {
   flex-direction: column;
   align-items: flex-end;
 
-  // box-shadow: 6px 6px 26px 0px rgba(50, 50, 50, 0.23);
-    .b-form__wrapper-label {
-      width: 100%;
-      position: relative;
-      .b-form__label {
-        display: inline-block;
-        text-align: right;
-        transition: all .2s ease-in-out;
-      }
-      span {
-        opacity: 0;
-        visibility: hidden;
-      }
-      .b-form__error-span {
-        display: inline-block;
-        color: red;
-      }
-      .fadeIn {
-        animation: fadeIn .4s ease-in-out;
-        @-webkit-keyframes fadeIn {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            transform: scale(1.2);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-      }
-      .redCard {
-        animation: redCard .4s ease-in-out;
-        color: #fff;
-        background: red;
-        padding: 5px;
-        @-webkit-keyframes redCard {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            // transform: scale(1.2);
-          }
-          100% {
-            // transform: scale(1);
-          }
-        }
-      }
-      .rotate {
-        animation: rotate .4s ease-in-out;
-        color: red;
-        padding: 5px;
-        @-webkit-keyframes rotate {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            transform: rotate(4deg);
-          }
-          100% {
-            transform: rotate(-2deg);
-          }
-        }
-      }
-      .slide {
-        opacity: 0;
-        animation: slide .4s ease-in-out;
-        -webkit-animation-fill-mode:both;
-        animation-fill-mode:both;
-        color: red;
-        padding: 5px;
-        transform: translateX(50%);
-        @-webkit-keyframes slide {
-          0% {
-            opacity: 0;
-          }
-          50% {
-            // transform: translateX(-100px);
-
-          }
-          100% {
-            transform: translateX(0);
-            // opacity: 1;
-            opacity: 1;
-
-          }
-        }
-      }
+  .b-form__wrapper-label {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: $height_wrapper;
+    .b-form__label {
+      line-height: $height_wrapper;
+      display: inline-block;
+      text-align: right;
+      transition: all .2s ease-in-out;
+    }
+    span {
+      line-height: $height_wrapper;
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+      padding: $error_padding;
+    }
+    p {
+      line-height: $height_wrapper;
+      position: absolute;
+      left: 0;
+      opacity: 0;
+      visibility: hidden;
+      padding: $error_padding;
+    }
+    .b-form__error-span {
+      opacity: 1;
+      display: inline-block;
+      visibility: visible;
+      display: inline-block;
+      margin-right: 5px;
+      color: red;
     }
     .fadeIn {
-      .b-form__label {
-        transform: scale(.7);
-        opacity: 0;
-        position: absolute;
+      animation: fadeIn .4s ease-in-out;
+      @-webkit-keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
     }
     .redCard {
-      .b-form__label {
-        transform: scale(.7);
-        opacity: 0;
-        position: absolute;
+      animation: redCard .4s ease-in-out;
+      color: #fff;
+      background: red;
+      // padding: 5px;
+      @-webkit-keyframes redCard {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          // transform: scale(1.2);
+        }
+        100% {
+          // transform: scale(1);
+        }
       }
     }
     .rotate {
-      .b-form__label {
-        transform: scale(.7);
-        opacity: 0;
-        position: absolute;
+      animation: rotate .4s ease-in-out;
+      color: red;
+      // padding: 5px;
+      @-webkit-keyframes rotate {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          transform: rotate(4deg);
+        }
+        100% {
+          transform: rotate(-2deg);
+        }
       }
     }
     .slide {
-      .b-form__label {
-        transform: translateX(-250px);
-        opacity: 0;
-        position: absolute;
-        // right: 0;
-      }
-    }
-    .b-form__input {
-      display: block;
-      height: 50px;
-      width: 100%;
-      margin-bottom: 10px;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      border: none;
-      border-bottom: 1px solid #e7e7e7;
-      font-size: 14px;
-      &:focus {
-        border-bottom: 1px solid;
-      }
-    }
-    .b-form__error {
-      display: block;
-      position: absolute;
-      text-align: right;
-      padding: 5px;
-      background: #fff;
-      border: 1px solid #000;
-      border-radius: 3px;
-      z-index: 1;
-      top: 30px;
-      right: 10px;
+      opacity: 0;
+      animation: slide .4s ease-in-out;
+      -webkit-animation-fill-mode:both;
+      animation-fill-mode:both;
       color: red;
-    }
-    .error_border {
-      border-bottom: 1px solid red;
-    }
+      // padding: 5px;
+      transform: translateX(50%);
+      @-webkit-keyframes slide {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          // transform: translateX(-100px);
 
+        }
+        100% {
+          transform: translateX(0);
+          // opacity: 1;
+          opacity: 1;
+
+        }
+      }
+    }
+  }
+  .fadeIn {
+    .b-form__label {
+      transform: scale(.7);
+      opacity: 0;
+      position: absolute;
+    }
+  }
+  .redCard {
+    .b-form__label {
+      transform: scale(.7);
+      opacity: 0;
+      position: absolute;
+    }
+  }
+  .rotate {
+    .b-form__label {
+      transform: scale(.7);
+      opacity: 0;
+      position: absolute;
+    }
+  }
+  .slide {
+    .b-form__label {
+      transform: translateX(-250px);
+      opacity: 0;
+      position: absolute;
+      // right: 0;
+    }
+  }
+  .b-form__input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 10px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #e7e7e7;
+    font-size: 14px;
+    &:focus {
+      border-bottom: 1px solid;
+    }
+  }
+  .b-form__error {
+    display: block;
+    position: absolute;
+    text-align: right;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 3px;
+    z-index: 1;
+    top: 30px;
+    right: 10px;
+    color: red;
+  }
+  .error_border {
+    border-bottom: 1px solid red;
+  }
 
   .b-form__button {
     height: 60px;

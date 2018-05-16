@@ -13,9 +13,9 @@
 </head>
 <body>
 <form action="" method="post" id="b-form">
-    <input type="text" data-effect="fadeIn redCard" data-label="login" id="login" name="login">
+    <input type="text" data-effect="fadeIn redCard slide" data-label="login" id="login" name="login">
     <input type="text" data-effect="fadeIn" data-label="You're email" id="e-mail" name="e-mail">
-    <input type="password" data-effect="fadeIn" data-label="Password" id="password" name="password">
+    <input type="password" data-effect="fadeIn redCard slide" data-label="Password" id="password" name="password">
     <input type="password" data-effect="fadeIn" data-label="Repeat you're password" id="repeat-password" name="repeat-password">
     <textarea data-label="Message" data-effect="redCard" id="message" name="message"></textarea>
     <button name="send" type="submit">Login</button>
@@ -61,37 +61,36 @@ var pluginSettings = {
         'login' : {
             required  : true,
             minLength : 4,
-            messages : {
-                messageRequired : 'Login is not required',
-                messageLength   : 'Login must be more 4 symbols'
+            messages  : {
+                required : 'Login is not required',
+                length   : 'Login must be more 4 symbols'
             }
         },
         'password' : {
             minLength : 8,
             required  : true,
             matched   : 'repeat-password',
-            messages : {
-                messageRequired : 'Password is not required',
-                messageLength   : 'Password must be more 8 symbols',
-                messageMatch    : 'Passwords is not match'
+            messages  : {
+                required : 'Password is not required',
+                length   : 'Password must be more 8 symbols',
+                match    : 'Passwords is not match'
             }
         },
         'e-mail' : {
             minLength : 8,
             required  : true,
-            messages : {
-                messageRequired : 'Email is not required',
-                messageLength   : 'Email must be more 8 symbols',
-                messageExist    : 'Email must contain @, .com, .ru symbols'
+            messages  : {
+                required : 'Email is not required',
+                length   : 'Email must be more 8 symbols',
+                exist    : 'Email must contain @, .com, .ru symbols'
             },
             exist     : ['@','.ru','.com']
-        }
-        ,
+        },
         'message' : {
             required  : true,
             minLength : 10,
-            messages : {
-                messageRequired : 'To much sumbols'
+            messages  : {
+                required : 'To much sumbols'
             }
         }
     }
