@@ -1,7 +1,10 @@
 'use strict';
 
-var form       = document.getElementById(pluginSettings.formId),
-    formAccess = form.elements;
+var form          = document.getElementById(pluginSettings.formId);
+var formAccess    = form.elements;
+var objectArray   = [];
+var count         = 0;
+var countEventArr = [];
 
 for (var i = 0; i < form.length; i++){
 
@@ -13,16 +16,11 @@ for (var i = 0; i < form.length; i++){
 
 }
 
-var objectArray = [];
-
 for ( var objectKey in pluginSettings.rules) {
 
     objectArray.push(objectKey);
 
 }
-
-var count = 0;
-var countEventArr = [];
 
 for ( var i = 0; i < formAccess.length; i++ ) {
 
@@ -30,9 +28,9 @@ for ( var i = 0; i < formAccess.length; i++ ) {
 
     formElements.addEventListener( 'keyup', function(e){
 
-        var keyEvent = window.event;
-        var inputsName = this.getAttribute('name'),
-            input      = document.getElementById(inputsName);
+        var keyEvent   = window.event;
+        var inputsName = this.getAttribute('name');
+        var input      = document.getElementById(inputsName);
 
         // deleteSpanError( this );
 
@@ -43,8 +41,6 @@ for ( var i = 0; i < formAccess.length; i++ ) {
                 if ( inputsName == objectArray[j] ) {
 
                     if ( pluginSettings.rules[inputsName].required ) {
-
-                        console.log( this.value.length );
 
                         if ( !this.value ) {
 
@@ -116,205 +112,58 @@ for ( var i = 0; i < formAccess.length; i++ ) {
 
 }
 
-// button.addEventListener( "click" , function(e) {
-
-//     e.preventDefault();
-
-//     deleteSpanError( formAccess );
-
-//     for ( var i = 0; i < formAccess.length; i++ ) {
-
-//         if( formAccess[i].getAttribute('type') == 'text' || formAccess[i].getAttribute('type') == 'password' ){
-
-//             // find plugin's inputs
-//             var inputs     = formAccess[i],
-//                 inputsName = inputs.getAttribute('name'),
-//                 input      = document.getElementById(inputsName);
-
-//             for (var j = 0; j < objectArray.length; j++) {
-
-//                 if (inputsName == objectArray[j]) {
-
-//                     if ( pluginSettings.rules[inputsName].required === true ) {
-
-//                         if ( !input.value ) {
-
-//                             e.preventDefault();
-
-//                             showErrors ( inputs, pluginSettings.rules[inputsName].messageRequired );
-
-//                         }
-//                         else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
-
-//                             e.preventDefault();
-
-//                             showErrors ( inputs, pluginSettings.rules[inputsName].messageLength );
-
-//                         }
-//                         else if ( pluginSettings.rules[inputsName].matched ) {
-
-//                             var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
-
-
-//                             if ( matched.value != input.value) {
-
-//                                 e.preventDefault();
-
-//                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageMatch );
-
-//                             }
-
-//                         }
-//                         else if ( pluginSettings.rules[inputsName].exist ) {
-
-//                             var existedArr   = pluginSettings.rules[inputsName].exist,
-//                                 existedValue = input.value;
-
-//                             if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
-//                                 e.preventDefault();
-
-//                                 showErrors ( inputs, pluginSettings.rules[inputsName].messageExist );
-
-//                             }
-
-//                         }
-
-//                     }
-
-//                 }
-
-//             }
-
-//         }
-//         // else if ( formAccess[i].tagName == 'TEXTAREA' ) {
-
-//         //     var inputs     = formAccess[i],
-//         //         inputsName = inputs.getAttribute('name');
-//         //         // input      = document.getElementById(inputsName);
-
-
-//         //     // for (var j = 0; j < objectArray.length; j++) {
-
-//         //     //     if (inputsName == objectArray[j]) {
-
-//         //     //         if ( pluginSettings.rules[inputsName].required === true ) {
-
-//         //     //             if ( !input.value ) {
-//         //     //                 input.value = pluginSettings.rules[inputsName].messageRequired;
-//         //     //             }
-//         //     //             else if ( input.value.length < pluginSettings.rules[inputsName].minLength ) {
-
-//         //     //                 input.value = pluginSettings.rules[inputsName].messageLength;
-
-//         //     //             }
-//         //     //             else if ( pluginSettings.rules[inputsName].matched ) {
-
-//         //     //                 var matched = document.getElementById(pluginSettings.rules[inputsName].matched);
-
-
-//         //     //                 if ( matched.value != input.value) {
-
-//         //     //                     input.value = pluginSettings.rules[inputsName].messageMatch;
-
-//         //     //                 }
-
-//         //     //             }
-//         //     //             else if ( pluginSettings.rules[inputsName].exist ) {
-
-//         //     //                 var existedArr   = pluginSettings.rules[inputsName].exist,
-//         //     //                     existedValue = input.value;
-
-//         //     //                 if (!existedArr.some(existedArr => existedValue.includes(existedArr)) ) {
-
-//         //     //                     input.value = pluginSettings.rules[inputsName].messageExist;
-
-//         //     //                 }
-
-//         //     //             }
-
-//         //     //         }
-
-//         //     //     }
-
-//         //     // }
-
-//         // }
-
-//     }
-
-// } );
-
 settings( formAccess );
 
 // create inputs, wrappers, labels and style function
 
 function settings ( elem ) {
 
-    for(var i = 0; i < elem.length; i++){
+    for( var i = 0; i < elem.length; i++ ){
 
-        if( elem[i].getAttribute('type') == 'text' || elem[i].getAttribute('type') == 'password' ){
+        if ( elem[i].getAttribute('type') == 'submit') {
 
-            // if you want to use plugin's styles
-            if(pluginSettings.defaultStyles === undefined || pluginSettings.defaultStyles === true) {
+            elem[i].className = 'b-form__button';
 
-                var dataLabelattribute = elem[i].getAttribute('data-label'),
-                    wrapperLabel       = document.createElement('div'),
-                    inputId            = elem[i].getAttribute('id'),
-                    label              = document.createElement('label');
+        } else {
 
-                wrapperLabel.className = "b-form__wrapper-label";
-                label.className   = 'b-form__label';
-                elem[i].className = 'b-form__input';
+            var inputsName = elem[i].getAttribute('name');
+            var dataLabelattribute = elem[i].getAttribute('data-label');
+            var wrapperLabel       = document.createElement('div');
+            var inputId            = elem[i].getAttribute('id');
+            var label              = document.createElement('label');
 
-                // elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
+            wrapperLabel.className = "b-form__wrapper-label";
+            label.className   = 'b-form__label';
+            elem[i].className = 'b-form__input';
 
-                // var parent  = elem[i].parentNode;
-                // parent.insertBefore(label, elem[i]);
+            var parent  = elem[i].parentNode;
+            parent.insertBefore(wrapperLabel, elem[i]);
+            wrapperLabel.appendChild(label);
+            label.innerHTML = dataLabelattribute;
+            label.setAttribute('for', inputId);
 
-                var parent  = elem[i].parentNode;
-                parent.insertBefore(wrapperLabel, elem[i]);
-                wrapperLabel.appendChild(label);
-                label.innerHTML = dataLabelattribute;
-                label.setAttribute('for', inputId);
+            form.className    = "b-form";
+            label.className   = 'b-form__label';
+            elem[i].className = 'b-form__input';
 
-                form.className    = "b-form";
-                label.className   = 'b-form__label';
-                elem[i].className = 'b-form__input';
+            for ( var j = 0; j < objectArray.length; j++ ) {
 
-            }
+                if ( inputsName == objectArray[j] ) {
 
-        }
-        else if ( elem[i].getAttribute('type') == 'submit') {
+                    if ( pluginSettings.rules[inputsName].required ) {
 
-            // if you want to use plugin's styles
-            if(pluginSettings.defaultStyles === undefined || pluginSettings.defaultStyles === true) {
+                        for ( var message in pluginSettings.rules[inputsName].messages) {
 
-                elem[i].className = 'b-form__button';
+                            var errorSpan = document.createElement('span');
 
-            }
-        }
-        else if ( elem[i].tagName == 'TEXTAREA' ) {
+                            wrapperLabel.appendChild(errorSpan);
+                            errorSpan.innerHTML = pluginSettings.rules[inputsName].messages[message];
 
-            // if you want to use plugin's styles
-            if(pluginSettings.defaultStyles === undefined || pluginSettings.defaultStyles === true) {
+                        }
 
-                // var wrapperTextArea    = document.createElement('div'),
-                var dataLabelattribute = elem[i].getAttribute('data-label'),
-                    inputId            = elem[i].getAttribute('id'),
-                    wrapperLabel       = document.createElement('div'),
-                    label              = document.createElement('label');
+                    }
 
-                wrapperLabel.className = "b-form__wrapper-label";
-                label.className   = 'b-form__label';
-                elem[i].className = 'b-form__input';
-
-                // elem[i].outerHTML = '<div class="b-form__block">' + elem[i].outerHTML + '</div>';
-
-                var parent  = elem[i].parentNode;
-                parent.insertBefore(wrapperLabel, elem[i]);
-                wrapperLabel.appendChild(label);
-                label.innerHTML = dataLabelattribute;
-                label.setAttribute('for', inputId);
+                }
 
             }
 
@@ -324,21 +173,12 @@ function settings ( elem ) {
 
 }
 
-// function showErrors ( inputs, message ) {
 function showErrors ( inputs, message ) {
 
-    // return false;
-    // if ( inputs.value.length == 2 && inputs.value.length < lengthValue ) {
+        var errorSpan    = document.createElement('span');
+        var dataEffect   = inputs.getAttribute('data-effect').split(" ");
+        var labelWrapper = inputs.previousSibling;
 
-    //     return false;
-
-    // } else {
-
-        var errorSpan    = document.createElement('span'),
-            dataEffect   = inputs.getAttribute('data-effect').split(" "),
-            labelWrapper  = inputs.previousSibling;
-
-        inputs.classList.add("error_border");
         labelWrapper.classList.add(dataEffect[dataEffect.length - 1]);
 
         errorSpan.className = "b-form__error-span " + dataEffect[dataEffect.length - 1];

@@ -29,8 +29,11 @@ body {
       .b-form__label {
         display: inline-block;
         text-align: right;
-        // padding: 6px 4px;
         transition: all .2s ease-in-out;
+      }
+      span {
+        opacity: 0;
+        visibility: hidden;
       }
       .b-form__error-span {
         display: inline-block;
